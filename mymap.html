@@ -1,1 +1,143 @@
+<!--
 
+To run this demo, you need to replace 'YOUR_API_KEY' with an API key from the ArcGIS Developers dashboard.
+
+Sign up for a free account and get an API key.
+
+https://developers.arcgis.com/documentation/mapping-apis-and-services/get-started/
+
+-->
+
+<html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ArcGIS Maps SDK for JavaScript Tutorials: Add a point, line, and polygon</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+  <script>
+
+  require([
+    "esri/config",
+    "esri/Map",
+    "esri/views/MapView",
+
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer"
+
+    ], function(esriConfig,Map, MapView, Graphic, GraphicsLayer) {
+
+  esriConfig.apiKey = "AAPK5535bae5324b499f99e8b1d89162cf99wSqG8uUyj7Ds6-f8TzpZU89EyswdktPY7sCrRYGn92J6m9aI3wKd4xYIhny-LeXz";
+
+  const map = new Map({
+    basemap: "arcgis-topographic" //Basemap layer service
+  });
+
+  const view = new MapView({
+    map: map,
+    center: [-78.08831,44.75245], //Longitude, latitude
+    zoom: 13,
+    container: "viewDiv"
+ });
+
+ const graphicsLayer = new GraphicsLayer();
+ map.add(graphicsLayer);
+
+ const point = { //Create a point
+    type: "point",
+    longitude: -78.09571703050217,    
+    latitude: 44.80330049063642
+ };
+ const simpleMarkerSymbol = {
+    type: "simple-marker",
+    color: [226, 119, 40],  // Orange
+    outline: {
+        color: [255, 255, 255], // White
+        width: 1
+    }
+ };
+
+ const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: simpleMarkerSymbol
+ });
+ graphicsLayer.add(pointGraphic);
+
+    // Create a line geometry
+ const polyline = {
+    type: "polyline",
+    paths: [
+        [-78.07351939567421, 44.80918514722924], //Longitude, latitude 
+        [-78.08440282143465, 44.80660252816551], //Longitude, latitude  
+        [-78.09536053679074, 44.803624466728344]  //Longitude, latitude
+    ]
+ };
+ const simpleLineSymbol = {
+    type: "simple-line",
+    color: [226, 119, 40], // Orange
+    width: 2
+ };
+
+ const polylineGraphic = new Graphic({
+    geometry: polyline,
+    symbol: simpleLineSymbol
+ });
+ graphicsLayer.add(polylineGraphic);
+
+ // Create a polygon geometry
+ const polygon = {
+    type: "polygon",
+    rings: [
+        [-78.089006, 44.740312], //Longitude, latitude
+        [-78.105873, 44.757703], //Longitude, latitude
+        [-78.095878, 44.763825], //Longitude, latitude
+        [-78.089006, 44.761341],   //Longitude, latitude
+        [-78.084758, 44.763825],  //Longitude, latitude 
+        [-78.073014, 44.764534]  //Longitude, latitude 
+    ] 
+ };
+
+ const simpleFillSymbol = {
+    type: "simple-fill",
+    color: [227, 139, 79, 0.8],  // Orange, opacity 80%
+    outline: {
+        color: [255, 255, 255],
+        width: 1
+    }
+ };
+
+ const popupTemplate = {
+    title: "{Name}",
+    content: "{Description}"
+ }
+ const attributes = {
+    Name: "Graphic",
+    Description: "I am a polygon"
+ }
+
+ const polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: simpleFillSymbol,
+
+    attributes: attributes,
+    popupTemplate: popupTemplate
+
+ });
+ graphicsLayer.add(polygonGraphic);
+
+ });
+</script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
