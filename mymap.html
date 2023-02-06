@@ -9,11 +9,10 @@ https://developers.arcgis.com/documentation/mapping-apis-and-services/get-starte
 -->
 
 <html>
-<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>ArcGIS Maps SDK for JavaScript Tutorials: Add a point, line, and polygon</title>
+  <title>ArcGIS Maps SDK for JavaScript Tutorials: Add a feature layer</title>
   <style>
     html, body, #viewDiv {
       padding: 0;
@@ -24,125 +23,41 @@ https://developers.arcgis.com/documentation/mapping-apis-and-services/get-starte
   </style>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
-  <script>
 
+  <script>
   require([
     "esri/config",
     "esri/Map",
     "esri/views/MapView",
 
-    "esri/Graphic",
-    "esri/layers/GraphicsLayer"
+    "esri/layers/FeatureLayer"
 
-    ], function(esriConfig,Map, MapView, Graphic, GraphicsLayer) {
+  ], function(esriConfig,Map, MapView, FeatureLayer) {
 
   esriConfig.apiKey = "AAPK5535bae5324b499f99e8b1d89162cf99wSqG8uUyj7Ds6-f8TzpZU89EyswdktPY7sCrRYGn92J6m9aI3wKd4xYIhny-LeXz";
 
   const map = new Map({
-    basemap: "hybrid" //Basemap layer service
+    basemap: "hybrid"
   });
 
   const view = new MapView({
+    container: "viewDiv",
     map: map,
-    center: [-78.08831,44.75245], //Longitude, latitude
-    zoom: 12,
-    container: "viewDiv"
- });
+    center: [-78.08831,44.75245],
+    zoom: 12
+  });
+
 //Trailheads feature layer (points)
   const trailheadsLayer = new FeatureLayer({
     url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/valentines_day_date_activities/FeatureServer"
   });
 
-  map.add(trailheadsLayer);
+  map.add(trailheadsLayer,0);
+
 
   });
- const graphicsLayer = new GraphicsLayer();
- map.add(graphicsLayer);
-
- const point = { //Create a point
-    type: "point",
-    longitude: -78.09571703050217,    
-    latitude: 44.80330049063642
- };
- const simpleMarkerSymbol = {
-    type: "simple-marker",
-    color: [226, 119, 40],  // Orange
-    outline: {
-        color: [255, 255, 255], // White
-        width: 1
-    }
- };
-
- const pointGraphic = new Graphic({
-    geometry: point,
-    symbol: simpleMarkerSymbol
- });
- graphicsLayer.add(pointGraphic);
-
-    // Create a line geometry
- const polyline = {
-    type: "polyline",
-    paths: [
-        [-78.07351939567421, 44.80918514722924], //Longitude, latitude 
-        [-78.08440282143465, 44.80660252816551], //Longitude, latitude  
-        [-78.09536053679074, 44.803624466728344]  //Longitude, latitude
-    ]
- };
- const simpleLineSymbol = {
-    type: "simple-line",
-    color: [226, 119, 40], // Orange
-    width: 2
- };
-
- const polylineGraphic = new Graphic({
-    geometry: polyline,
-    symbol: simpleLineSymbol
- });
- graphicsLayer.add(polylineGraphic);
-
- // Create a polygon geometry
- const polygon = {
-    type: "polygon",
-    rings: [
-        [-78.089006, 44.740312], //Longitude, latitude
-        [-78.105873, 44.757703], //Longitude, latitude
-        [-78.095878, 44.763825], //Longitude, latitude
-        [-78.089006, 44.761341],   //Longitude, latitude
-        [-78.082957, 44.764199],  //Longitude, latitude
-        [-78.073504, 44.759448]  //Longitude, latitude
-    ] 
- };
-
- const simpleFillSymbol = {
-    type: "simple-fill",
-    color: [227, 139, 79, 0.8],  // Orange, opacity 80%
-    outline: {
-        color: [255, 255, 255],
-        width: 1
-    }
- };
-
- const popupTemplate = {
-    title: "{Name}",
-    content: "{Description}"
- }
- const attributes = {
-    Name: "A Heart",
-    Description: "As this is the town where I met my girlfriend"
- }
-
- const polygonGraphic = new Graphic({
-    geometry: polygon,
-    symbol: simpleFillSymbol,
-
-    attributes: attributes,
-    popupTemplate: popupTemplate
-
- });
- graphicsLayer.add(polygonGraphic);
-
- });
 </script>
+
 </head>
 <body>
   <div id="viewDiv"></div>
