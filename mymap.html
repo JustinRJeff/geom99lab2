@@ -48,7 +48,14 @@ https://developers.arcgis.com/documentation/mapping-apis-and-services/get-starte
     zoom: 12,
     container: "viewDiv"
  });
+//Trailheads feature layer (points)
+  const trailheadsLayer = new FeatureLayer({
+    url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/valentines_day_date_activities/FeatureServer"
+  });
 
+  map.add(trailheadsLayer);
+
+  });
  const graphicsLayer = new GraphicsLayer();
  map.add(graphicsLayer);
 
